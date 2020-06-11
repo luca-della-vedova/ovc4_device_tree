@@ -52,6 +52,14 @@
 				reset-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
 			};
 		};
+		i2c@3 {
+			reg = <3>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			ovc4cam_d@10 {
+				reset-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
+			};
+		};
 	};
 
 	gpio@2200000 {
