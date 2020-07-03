@@ -21,6 +21,8 @@
 #define CAM1_PWDN	TEGRA194_MAIN_GPIO(P, 5)
 #define CAM_I2C_MUX 	TEGRA194_AON_GPIO(CC, 3)
 
+// CAM0 is actually CAM1 on PCB
+
 / {
 	cam_i2cmux{
 		compatible = "i2c-mux-gpio";
@@ -32,7 +34,7 @@
 			reg = <0>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			rbpcv2_imx219_a@10 {
+			ovc4cam_a@10 {
 				reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
 			};
 		};
