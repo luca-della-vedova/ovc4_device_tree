@@ -42,7 +42,7 @@
 			reg = <1>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			rbpcv2_imx219_c@10 {
+			ovc4cam_b@10 {
 				reset-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
 			};
 		};

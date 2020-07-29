@@ -33,16 +33,16 @@
 				};
 				vi_port1: port@1 {
 					reg = <1>;
-					rbpcv2_imx219_vi_in1: endpoint {
-						port-index = <2>;
+					ovc4cam_vi_in1: endpoint {
+						port-index = <1>;
 						bus-width = <2>;
-						remote-endpoint = <&rbpcv2_imx219_csi_out1>;
+						remote-endpoint = <&ovc4cam_csi_out1>;
 					};
 				};
 				vi_port2: port@2 {
 					reg = <2>;
 					ovc4cam_vi_in2: endpoint {
-						port-index = <4>;
+						port-index = <2>;
 						bus-width = <2>;
 						remote-endpoint = <&ovc4cam_csi_out2>;
 					};
@@ -50,7 +50,7 @@
 				vi_port3: port@3 {
 					reg = <3>;
 					ovc4cam_vi_in3: endpoint {
-						port-index = <5>;
+						port-index = <3>;
 						bus-width = <2>;
 						remote-endpoint = <&ovc4cam_csi_out3>;
 					};
@@ -90,16 +90,16 @@
 					#size-cells = <0>;
 					csi_chan1_port0: port@0 {
 						reg = <0>;
-						rbpcv2_imx219_csi_in1: endpoint@2 {
-							port-index = <2>;
+						ovc4cam_csi_in1: endpoint@2 {
+							port-index = <1>;
 							bus-width = <2>;
-							remote-endpoint = <&rbpcv2_imx219_out1>;
+							remote-endpoint = <&ovc4cam_out1>;
 						};
 					};
 					csi_chan1_port1: port@1 {
 						reg = <1>;
-						rbpcv2_imx219_csi_out1: endpoint@3 {
-							remote-endpoint = <&rbpcv2_imx219_vi_in1>;
+						ovc4cam_csi_out1: endpoint@3 {
+							remote-endpoint = <&ovc4cam_vi_in1>;
 						};
 					};
 				};
@@ -112,7 +112,7 @@
 					csi_chan2_port0: port@0 {
 						reg = <0>;
 						ovc4cam_csi_in2: endpoint@4 {
-							port-index = <4>;
+							port-index = <2>;
 							bus-width = <2>;
 							remote-endpoint = <&ovc4cam_out2>;
 						};
@@ -133,7 +133,7 @@
 					csi_chan3_port0: port@0 {
 						reg = <0>;
 						ovc4cam_csi_in3: endpoint@6 {
-							port-index = <5>;
+							port-index = <3>;
 							bus-width = <2>;
 							remote-endpoint = <&ovc4cam_out3>;
 						};
@@ -166,7 +166,7 @@
 				physical_w = "3.680";
 				physical_h = "2.760";
 
-				sensor_model = "imx219";
+				sensor_model = "ovc4cam";
 
 				use_sensor_mode_id = "true";
 
@@ -267,19 +267,22 @@
 			};
 		};
 		i2c_1: i2c@1 {
-			imx219_cam1: rbpcv2_imx219_c@10 {
-				compatible = "nvidia,imx219_SKIP";
+			ovc4cam_cam1: ovc4cam_b@10 {
+				compatible = "nvidia,ovc4cam";
 				/* I2C device address */
 				reg = <0x10>;
 
 				/* V4L2 device node location */
 				devnode = "video1";
 
+        /* OVC4 sensor index */
+        sensor_id = <1>;
+
 				/* Physical dimensions of sensor */
 				physical_w = "3.680";
 				physical_h = "2.760";
 
-				sensor_model = "imx219";
+				sensor_model = "ovc4cam";
 
 				use_sensor_mode_id = "true";
 
@@ -364,86 +367,11 @@
 				* Sensor embedded metadata height in units of rows.
 				* If sensor does not support embedded metadata value should be 0.
 				*/
-				mode0 { /* IMX219_MODE_3264x2464_21FPS */
+
+				mode0 { /* IMX219_MODE_1920x1080_30FPS */
 					mclk_khz = "24000";
 					num_lanes = "2";
-					tegra_sinterface = "serial_c";
-					phy_mode = "DPHY";
-					discontinuous_clk = "yes";
-					dpcm_enable = "false";
-					cil_settletime = "0";
-
-					active_w = "3264";
-					active_h = "2464";
-					pixel_t = "bayer_rggb";
-					readout_orientation = "90";
-					line_length = "3448";
-					inherent_gain = "1";
-					mclk_multiplier = "9.33";
-					pix_clk_hz = "182400000";
-
-					gain_factor = "16";
-					framerate_factor = "1000000";
-					exposure_factor = "1000000";
-					min_gain_val = "16"; /* 1.00x */
-					max_gain_val = "170"; /* 10.66x */
-					step_gain_val = "1";
-					default_gain = "16"; /* 1.00x */
-					min_hdr_ratio = "1";
-					max_hdr_ratio = "1";
-					min_framerate = "2000000"; /* 2.0 fps */
-					max_framerate = "21000000"; /* 21.0 fps */
-					step_framerate = "1";
-					default_framerate = "21000000"; /* 21.0 fps */
-					min_exp_time = "13"; /* us */
-					max_exp_time = "683709"; /* us */
-					step_exp_time = "1";
-					default_exp_time = "2495"; /* us */
-
-					embedded_metadata_height = "2";
-				};
-				mode1 { /* IMX219_MODE_3264x1848_28FPS */
-					mclk_khz = "24000";
-					num_lanes = "2";
-					tegra_sinterface = "serial_c";
-					phy_mode = "DPHY";
-					discontinuous_clk = "yes";
-					dpcm_enable = "false";
-					cil_settletime = "0";
-
-					active_w = "3264";
-					active_h = "1848";
-					pixel_t = "bayer_rggb";
-					readout_orientation = "90";
-					line_length = "3448";
-					inherent_gain = "1";
-					mclk_multiplier = "9.33";
-					pix_clk_hz = "182400000";
-
-					gain_factor = "16";
-					framerate_factor = "1000000";
-					exposure_factor = "1000000";
-					min_gain_val = "16"; /* 1.00x */
-					max_gain_val = "170"; /* 10.66x */
-					step_gain_val = "1";
-					default_gain = "16"; /* 1.00x */
-					min_hdr_ratio = "1";
-					max_hdr_ratio = "1";
-					min_framerate = "2000000"; /* 2.0 fps */
-					max_framerate = "28000000"; /* 28.0 fps */
-					step_framerate = "1";
-					default_framerate = "28000000"; /* 28.0 fps */
-					min_exp_time = "13"; /* us */
-					max_exp_time = "683709"; /* us */
-					step_exp_time = "1";
-					default_exp_time = "2495"; /* us */
-
-					embedded_metadata_height = "2";
-				};
-				mode2 { /* IMX219_MODE_1920x1080_30FPS */
-					mclk_khz = "24000";
-					num_lanes = "2";
-					tegra_sinterface = "serial_c";
+					tegra_sinterface = "serial_b";
 					phy_mode = "DPHY";
 					discontinuous_clk = "yes";
 					dpcm_enable = "false";
@@ -451,7 +379,9 @@
 
 					active_w = "1920";
 					active_h = "1080";
-					pixel_t = "bayer_rggb";
+          mode_type = "bayer";
+          pixel_phase = "rggb";
+          csi_pixel_bit_depth = "10";
 					readout_orientation = "90";
 					line_length = "3448";
 					inherent_gain = "1";
@@ -478,29 +408,32 @@
 
 					embedded_metadata_height = "2";
 				};
-				mode3 { /* IMX219_MODE_1280x720_60FPS */
+
+				mode1 { /* IMX477_MODE_1920X1080_60FPS */
 					mclk_khz = "24000";
 					num_lanes = "2";
-					tegra_sinterface = "serial_c";
+					tegra_sinterface = "serial_b";
 					phy_mode = "DPHY";
-					discontinuous_clk = "yes";
+					discontinuous_clk = "no";
 					dpcm_enable = "false";
 					cil_settletime = "0";
 
-					active_w = "1280";
-					active_h = "720";
-					pixel_t = "bayer_rggb";
+					active_w = "1920";
+					active_h = "1080";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					csi_pixel_bit_depth = "10";
 					readout_orientation = "90";
-					line_length = "3448";
+					line_length = "9024";
 					inherent_gain = "1";
-					mclk_multiplier = "9.33";
-					pix_clk_hz = "182400000";
+					mclk_multiplier = "80";
+					pix_clk_hz = "840000000";
 
 					gain_factor = "16";
 					framerate_factor = "1000000";
 					exposure_factor = "1000000";
 					min_gain_val = "16"; /* 1.00x */
-					max_gain_val = "170"; /* 10.66x */
+					max_gain_val = "356"; /* 22x */
 					step_gain_val = "1";
 					default_gain = "16"; /* 1.00x */
 					min_hdr_ratio = "1";
@@ -516,55 +449,17 @@
 
 					embedded_metadata_height = "2";
 				};
-				mode4 { /* IMX219_MODE_1280x720_120FPS */
-					mclk_khz = "24000";
-					num_lanes = "2";
-					tegra_sinterface = "serial_c";
-					phy_mode = "DPHY";
-					discontinuous_clk = "yes";
-					dpcm_enable = "false";
-					cil_settletime = "0";
-
-					active_w = "1280";
-					active_h = "720";
-					pixel_t = "bayer_rggb";
-					readout_orientation = "90";
-					line_length = "3448";
-					inherent_gain = "1";
-					mclk_multiplier = "9.33";
-					pix_clk_hz = "169600000";
-
-					gain_factor = "16";
-					framerate_factor = "1000000";
-					exposure_factor = "1000000";
-					min_gain_val = "16"; /* 1.00x */
-					max_gain_val = "170"; /* 10.66x */
-					step_gain_val = "1";
-					default_gain = "16"; /* 1.00x */
-					min_hdr_ratio = "1";
-					max_hdr_ratio = "1";
-					min_framerate = "2000000"; /* 2.0 fps */
-					max_framerate = "120000000"; /* 120.0 fps */
-					step_framerate = "1";
-					default_framerate = "120000000"; /* 120.0 fps */
-					min_exp_time = "13"; /* us */
-					max_exp_time = "683709"; /* us */
-					step_exp_time = "1";
-					default_exp_time = "2495"; /* us */
-
-					embedded_metadata_height = "2";
-				};
 
 				ports {
 					#address-cells = <1>;
 					#size-cells = <0>;
 					port@0 {
 						reg = <0>;
-						rbpcv2_imx219_out1: endpoint {
+						ovc4cam_out1: endpoint {
 							status = "okay";
-							port-index = <2>;
+							port-index = <1>;
 							bus-width = <2>;
-							remote-endpoint = <&rbpcv2_imx219_csi_in1>;
+							remote-endpoint = <&ovc4cam_csi_in1>;
 						};
 					};
 				};
@@ -572,7 +467,7 @@
 		};
 		i2c_2:i2c@2 {
 			ovc4cam_cam2: ovc4cam_c@10 {
-				compatible = "nvidia,ovc4cam_SKIP";
+				compatible = "nvidia,ovc4cam";
 				/* I2C device address */
 				reg = <0x10>;
 
@@ -586,7 +481,7 @@
 				physical_w = "3.680";
 				physical_h = "2.760";
 
-				sensor_model = "imx219";
+				sensor_model = "ovc4cam";
 
 				use_sensor_mode_id = "true";
 
@@ -671,7 +566,8 @@
 				* Sensor embedded metadata height in units of rows.
 				* If sensor does not support embedded metadata value should be 0.
 				*/
-				mode0 { /* IMX219_MODE_3264x2464_21FPS */
+
+				mode0 { /* IMX219_MODE_1920x1080_30FPS */
 					mclk_khz = "24000";
 					num_lanes = "2";
 					tegra_sinterface = "serial_c";
@@ -680,9 +576,11 @@
 					dpcm_enable = "false";
 					cil_settletime = "0";
 
-					active_w = "3264";
-					active_h = "2464";
-					pixel_t = "bayer_rggb";
+					active_w = "1920";
+					active_h = "1080";
+          mode_type = "bayer";
+          pixel_phase = "rggb";
+          csi_pixel_bit_depth = "10";
 					readout_orientation = "90";
 					line_length = "3448";
 					inherent_gain = "1";
@@ -699,9 +597,50 @@
 					min_hdr_ratio = "1";
 					max_hdr_ratio = "1";
 					min_framerate = "2000000"; /* 2.0 fps */
-					max_framerate = "21000000"; /* 21.0 fps */
+					max_framerate = "30000000"; /* 30.0 fps */
 					step_framerate = "1";
-					default_framerate = "21000000"; /* 21.0 fps */
+					default_framerate = "30000000"; /* 30.0 fps */
+					min_exp_time = "13"; /* us */
+					max_exp_time = "683709"; /* us */
+					step_exp_time = "1";
+					default_exp_time = "2495"; /* us */
+
+					embedded_metadata_height = "2";
+				};
+
+				mode1 { /* IMX477_MODE_1920X1080_60FPS */
+					mclk_khz = "24000";
+					num_lanes = "2";
+					tegra_sinterface = "serial_c";
+					phy_mode = "DPHY";
+					discontinuous_clk = "no";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+
+					active_w = "1920";
+					active_h = "1080";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					csi_pixel_bit_depth = "10";
+					readout_orientation = "90";
+					line_length = "9024";
+					inherent_gain = "1";
+					mclk_multiplier = "80";
+					pix_clk_hz = "840000000";
+
+					gain_factor = "16";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "16"; /* 1.00x */
+					max_gain_val = "356"; /* 22x */
+					step_gain_val = "1";
+					default_gain = "16"; /* 1.00x */
+					min_hdr_ratio = "1";
+					max_hdr_ratio = "1";
+					min_framerate = "2000000"; /* 2.0 fps */
+					max_framerate = "60000000"; /* 60.0 fps */
+					step_framerate = "1";
+					default_framerate = "60000000"; /* 60.0 fps */
 					min_exp_time = "13"; /* us */
 					max_exp_time = "683709"; /* us */
 					step_exp_time = "1";
@@ -717,7 +656,7 @@
 						reg = <0>;
 						ovc4cam_out2: endpoint {
 							status = "okay";
-							port-index = <4>;
+							port-index = <2>;
 							bus-width = <2>;
 							remote-endpoint = <&ovc4cam_csi_in2>;
 						};
@@ -727,7 +666,7 @@
     };
 		i2c_3:i2c@3 {
 			ovc4cam_cam3: ovc4cam_d@10 {
-				compatible = "nvidia,ovc4cam_SKIP";
+				compatible = "nvidia,ovc4cam";
 				/* I2C device address */
 				reg = <0x10>;
 
@@ -741,7 +680,7 @@
 				physical_w = "3.680";
 				physical_h = "2.760";
 
-				sensor_model = "imx219";
+				sensor_model = "ovc4cam";
 
 				use_sensor_mode_id = "true";
 
@@ -826,18 +765,20 @@
 				* Sensor embedded metadata height in units of rows.
 				* If sensor does not support embedded metadata value should be 0.
 				*/
-				mode0 { /* IMX219_MODE_3264x2464_21FPS */
+				mode0 { /* IMX219_MODE_1920x1080_30FPS */
 					mclk_khz = "24000";
 					num_lanes = "2";
-					tegra_sinterface = "serial_c";
+					tegra_sinterface = "serial_d";
 					phy_mode = "DPHY";
 					discontinuous_clk = "yes";
 					dpcm_enable = "false";
 					cil_settletime = "0";
 
-					active_w = "3264";
-					active_h = "2464";
-					pixel_t = "bayer_rggb";
+					active_w = "1920";
+					active_h = "1080";
+          mode_type = "bayer";
+          pixel_phase = "rggb";
+          csi_pixel_bit_depth = "10";
 					readout_orientation = "90";
 					line_length = "3448";
 					inherent_gain = "1";
@@ -854,9 +795,50 @@
 					min_hdr_ratio = "1";
 					max_hdr_ratio = "1";
 					min_framerate = "2000000"; /* 2.0 fps */
-					max_framerate = "21000000"; /* 21.0 fps */
+					max_framerate = "30000000"; /* 30.0 fps */
 					step_framerate = "1";
-					default_framerate = "21000000"; /* 21.0 fps */
+					default_framerate = "30000000"; /* 30.0 fps */
+					min_exp_time = "13"; /* us */
+					max_exp_time = "683709"; /* us */
+					step_exp_time = "1";
+					default_exp_time = "2495"; /* us */
+
+					embedded_metadata_height = "2";
+				};
+
+				mode1 { /* IMX477_MODE_1920X1080_60FPS */
+					mclk_khz = "24000";
+					num_lanes = "2";
+					tegra_sinterface = "serial_d";
+					phy_mode = "DPHY";
+					discontinuous_clk = "no";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+
+					active_w = "1920";
+					active_h = "1080";
+					mode_type = "bayer";
+					pixel_phase = "rggb";
+					csi_pixel_bit_depth = "10";
+					readout_orientation = "90";
+					line_length = "9024";
+					inherent_gain = "1";
+					mclk_multiplier = "80";
+					pix_clk_hz = "840000000";
+
+					gain_factor = "16";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "16"; /* 1.00x */
+					max_gain_val = "356"; /* 22x */
+					step_gain_val = "1";
+					default_gain = "16"; /* 1.00x */
+					min_hdr_ratio = "1";
+					max_hdr_ratio = "1";
+					min_framerate = "2000000"; /* 2.0 fps */
+					max_framerate = "60000000"; /* 60.0 fps */
+					step_framerate = "1";
+					default_framerate = "60000000"; /* 60.0 fps */
 					min_exp_time = "13"; /* us */
 					max_exp_time = "683709"; /* us */
 					step_exp_time = "1";
@@ -872,7 +854,7 @@
 						reg = <0>;
 						ovc4cam_out3: endpoint {
 							status = "okay";
-							port-index = <5>;
+							port-index = <3>;
 							bus-width = <2>;
 							remote-endpoint = <&ovc4cam_csi_in3>;
 						};
@@ -924,7 +906,8 @@
 		min_bits_per_pixel = <10>;
 		vi_peak_byte_per_pixel = <2>;
 		vi_bw_margin_pct = <25>;
-		max_pixel_rate = <7500000>;
+		//max_pixel_rate = <7500000>;
+		max_pixel_rate = <240000>;
 		isp_peak_byte_per_pixel = <5>;
 		isp_bw_margin_pct = <25>;
 
@@ -936,11 +919,19 @@
 		 * The third part contains the last 6 characters of a part number which is found
 		 * in the module's specsheet from the vendor.
 		 */
+/*
+  CAM4 = topleft
+  CAM2 = topright
+  CAM5 = middleleft
+  CAM0 = middleright
+  CAM3 = bottomleft
+  CAM1 = bottomright
+*/
 		modules {
 			cam_module0: module0 {
-				badge = "jakku_front_RBP194";
-				position = "front";
-				orientation = "1";
+				badge = "ovc4cam_middleright_ovc4";
+				position = "middleright";
+				orientation = "3";
 				cam_module0_drivernode0: drivernode0 {
 					pcl_id = "v4l2_sensor";
 					devname = "ovc4cam 9-0010";
@@ -952,13 +943,13 @@
 				};
 			};
 			cam_module1: module1 {
-				badge = "jakku_rear_RBP194";
-				position = "rear";
-				orientation = "1";
+				badge = "ovc4cam_bottomright_ovc4";
+				position = "bottomright";
+				orientation = "5";
 				cam_module1_drivernode0: drivernode0 {
 					pcl_id = "v4l2_sensor";
-					devname = "imx219 10-0010";
-					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/rbpcv2_imx219_c@10";
+					devname = "ovc4cam 10-0010";
+					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/ovc4cam_b@10";
 				};
 				cam_module1_drivernode1: drivernode1 {
 					pcl_id = "v4l2_lens";
@@ -967,8 +958,8 @@
 			};
       // Added
 			cam_module2: module2 {
-				badge = "ovc4cam_2";
-				position = "rear";
+				badge = "ovc4cam_topright_ovc4";
+				position = "topright";
 				orientation = "1";
 				cam_module2_drivernode0: drivernode0 {
 					pcl_id = "v4l2_sensor";
@@ -977,9 +968,9 @@
 				};
 			};
 			cam_module3: module3 {
-				badge = "ovc4cam_3";
-				position = "rear";
-				orientation = "1";
+				badge = "ovc4cam_bottomleft_ovc4";
+				position = "bottomleft";
+				orientation = "4";
 				cam_module3_drivernode0: drivernode0 {
 					pcl_id = "v4l2_sensor";
 					devname = "ovc4cam 12-0010";
